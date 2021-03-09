@@ -11,6 +11,12 @@
                     @endif
                 @endforeach
             </div>
+            <div class="col-md-6">
+                <a href="create" class="btn btn-primary">
+                    Novo Produto
+                </a>
+            </div>
+            <br>
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
@@ -26,9 +32,9 @@
                         @foreach($products as $product)
                         <tr>
                             <td><a href="products/{{ $product->id }}">{{ $product->sku }}</a></td>
-                            <td>{{ $product->nome }}</td>
-                            <td>{{ $product->preco }}</td>
-                            <td>{{ $product->quantidade }}</td>
+                            <td>{{ $product->name }}</td>
+                            <td>{{ $product->price }}</td>
+                            <td>{{ $product->amount }}</td>
                             <td>
                                 <a href="{{action('ProductController@edit', $product->id)}}" class="btn btn-warning">Editar</a>
                             </td>

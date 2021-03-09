@@ -22,7 +22,7 @@
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">Nome</label>
                             <div class="col-md-6">
-                                <input id="name" class="form-control" name="name" type="text" value="@if (isset($product)) {{  $product->titulo }} @endif">
+                                <input id="name" class="form-control" name="name" type="text" value="@if (isset($product)) {{  $product->name }} @endif">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -40,7 +40,7 @@
                         <div class="form-group row">
                             <label for="quantidade" class="col-md-4 col-form-label text-md-right">Quantidade</label>
                             <div class="col-md-6">
-                                <input id="quantidade" class="form-control" name="amount" type="number" value="@if (isset($product)) {{  $product->amount }}@endif">
+                                <input id="quantidade" class="form-control" name="amount" type="number" value="@if (isset($product)) {{  intval($product->amount) }}@endif">
                             </div>
                         </div>
                         <div class="form-group row mb-0">
