@@ -8,95 +8,63 @@ use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
-        public function index ()
+    public function index ()
     {
-        return Product::all();
+        $products = Product::all();
+        return view('products.index', compact('products'));
+    }
+
+    public function create()
+    {
+
+        return view('products.create');
     }
 
     public function store(ProductRequest $request)
     {
-        try {
+        $product = new Product();
+        $product->sku = $request->sku;
+        $product->name = $request->name;
+        $product->price = $request->price;
+        $product->amount = $request->amount;
 
-        $data = Product::create($request->validated());
+        $product->save();
 
-        return response()->json([
-            'info' => 'success',
-            'result' => $data
-        ]);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'info' => 'error',
-                'result' => 'Não foi possível cadastrar o produto!',
-                'error' => $e->getMessage(),
-            ], 400);
-        }
+        $request->session()->flash('alert-success', 'Produto adicionado com sucesso!');
+        return redirect()->route('products.index');
 
     }
 
-    public function show(Request $request)
+    public function show(Request $product)
     {
-        try {
-
-        $data = Product::findOrFail($request->id);
-
-        return response()->json([
-            'info' => 'success',
-            'result' => $data
-        ]);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'info' => 'error',
-                'result' => 'Não foi possível capturar os dados do produto!',
-                'error' => $e->getMessage(),
-            ], 400);
-        }
+        return view('products.show', compact('product'));
     }
 
-    public function update(ProductRequest $request)
+    public function edit(Product $product)
     {
-        try {
-        $product = Product::find($request->id)->first();
-
-        if ($product !== null) {
-            $product = $product->update($request->all());
-        }
-
-        return response()->json([
-            'info' => 'success',
-            'result' => $product
-        ]);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'info' => 'error',
-                'result' => 'Não foi possível atualizar os dados do produto!',
-                'error' => $e->getMessage(),
-            ], 400);
-        }
+        $action = action('ProductController@update', $product->id);
+        return view('products.edit', compact('product', "action"));
     }
 
-    public function destroy(Request $request)
+    public function update(ProductRequest $request, Product $product)
     {
-        try {
+        $product->sku = $request->sku;
+        $product->name = $request->name;
+        $product->price = $request->price;
+        $product->amount = $request->amount;
 
-        $product = Product::find($request->id);
+        $product->save();
 
-        $product = $product->delete();
+        $request->session()->flash('alert-success', 'Produto alterado com sucesso!');
 
-        return response()->json([
-            'info' => 'success',
-            'result' => $product
-        ]);
+        return redirect(route('products.index'));
+    }
 
-        } catch (\Exception $e) {
-            return response()->json([
-                'info' => 'error',
-                'result' => 'Não foi possível excluir o produto!',
-                'error' => $e->getMessage(),
-            ], 400);
-        }
+    public function destroy(Request $request, Product $product)
+    {
+        $product->delete();
+        $request->session()->flash('alert-success', 'Produto apagado com sucesso!');
 
+        return redirect()->back();
     }
 }
