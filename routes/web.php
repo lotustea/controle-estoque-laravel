@@ -20,3 +20,11 @@ Route::get('/', function () {
 
 
 Route::resource('products', 'ProductController');
+
+Route::prefix('products')->group(function () {
+    Route::get('/downAmount/{id}', 'ProductController@downAmount');
+    Route::get('/upAmount/{id}', 'ProductController@upAmount');
+    Route::patch('/removeAmount', 'ProductController@removeAmount')->name('products.removeAmount');
+    Route::patch('/addAmount', 'ProductController@addAmount')->name('products.AddAmount');
+});
+

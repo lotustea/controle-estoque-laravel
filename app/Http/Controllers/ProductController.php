@@ -67,4 +67,35 @@ class ProductController extends Controller
 
         return redirect()->back();
     }
+
+    public function downAmount(Product $product, Request $request)
+    {
+        $product = Product::findOrFail($request->id);
+        return view('products.remove-amount', compact('product'));
+    }
+
+    public function upAmount(Product $product, Request $request)
+    {
+        $product = Product::findOrFail($request->id);
+        return view('products.add-amount', compact('product'));
+    }
+
+    public function removeAmount(ProductRequest $request, Product $product){
+        $product->amount = $request->amount;
+        $product->save();
+
+        $request->session()->flash('alert-success', 'Baixa realizada com sucesso!');
+
+        return view('products.show', compact('product'));
+    }
+
+    public function addAmount(ProductRequest $request, Product $product){
+        $product->amount = $request->amount;
+        $product->save();
+
+        $request->session()->flash('alert-success', 'Baixa realizada com sucesso!');
+
+        return view('products.show', compact('product'));
+    }
+
 }

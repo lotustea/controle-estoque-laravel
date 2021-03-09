@@ -36,6 +36,8 @@
                             <td>{{ $product->price }}</td>
                             <td>{{ $product->amount }}</td>
                             <td>
+                                <a href="{{url('products/downAmount', $product->id)}}" class="btn btn-info">Dar baixa estoque</a>
+                                <a href="{{url('products/upAmount', $product->id)}}" class="btn btn-success">Adicionar estoque</a>
                                 <a href="{{action('ProductController@edit', $product->id)}}" class="btn btn-warning">Editar</a>
                             </td>
                             <td>
