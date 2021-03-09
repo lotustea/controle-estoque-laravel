@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('sku')->unique();
             $table->string('name');
             $table->integer('amount');
-            $table->money_format('price');
+            $table->decimal('price', 9,3);
             $table->timestamps();
         });
     }
